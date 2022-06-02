@@ -1,0 +1,1144 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0304
+header_name {.h}
+code_name {.cxx}
+decl {\#include <stdio.h>} {private local
+}
+
+decl {\#include <stdlib.h>} {private local
+}
+
+decl {\#include <string.h>} {private local
+}
+
+decl {\#include <stdlib.h>} {private local
+}
+
+decl {\#include <unistd.h>} {private local
+}
+
+decl {\#include <dirent.h>} {private local
+}
+
+decl {\#include <limits.h>} {private local
+}
+
+decl {\#include <time.h>} {private local
+}
+
+Function {fexist( const char *a_option )} {open return_type int
+} {
+  code {char dir1[PATH_MAX]; 
+	char *dir2;
+	DIR *dip;
+	strncpy( dir1 , "",  PATH_MAX  );
+	strncpy( dir1 , a_option,  PATH_MAX  );
+
+	struct stat st_buf; 
+	int status; 
+	int fileordir = 0 ; 
+
+	status = stat ( dir1 , &st_buf);
+	if (status != 0) {
+		fileordir = 0;
+	}
+	FILE *fp2check = fopen( dir1  ,"r");
+	if( fp2check ) {
+		fileordir = 1; 
+		fclose(fp2check);
+	} 
+
+	if (S_ISDIR (st_buf.st_mode)) {
+		fileordir = 2; 
+	}
+	return fileordir;
+	/////////////////////////////} {}
+}
+
+decl {int var_floccalc_element_sum = 0;} {private local
+}
+
+Function {foccalc_runwith( const char *fooapp , const char *foofile  )} {open return_type int
+} {
+  code {char foostr[PATH_MAX];
+  snprintf( foostr , sizeof( foostr ), "%s \\"%s\\" " ,  fooapp , foofile ); 
+  printf( "CMD %s\\n", foostr ); 
+  system( foostr ) ;} {}
+}
+
+Function {fcoccalc_periodic_select_elt( const char *fooelement )} {open return_type int
+} {
+  code {if ( var_floccalc_element_sum == 2 ) 
+ {
+     var_input_floc_elements->value( "" );
+     var_input_floc_variable1->value( "" );
+     var_floccalc_element_sum = 0; 
+ }
+ 	
+	
+ char foostr[PATH_MAX];
+ if ( strlen( var_input_floc_elements->value() ) == 0 ) 
+    snprintf( foostr , sizeof( foostr ), "%s" ,  fooelement ); 
+ else 
+    snprintf( foostr , sizeof( foostr ), "%s %s" ,  var_input_floc_elements->value() , fooelement ); 
+
+
+ var_input_floc_elements->value( foostr );
+ var_floccalc_element_sum++;
+ 
+ 
+ if ( var_floccalc_element_sum == 2 ) 
+ {
+     var_input_floc_variable1->value( fooelement );
+ }
+ 
+ 
+ // eob} {}
+}
+
+Function {make_window()} {open
+} {
+  Fl_Window win1 {
+    label FLOCCALC open
+    xywh {588 362 695 700} type Double box THIN_UP_BOX resizable visible
+  } {
+    Fl_Box {} {
+      label {Binary Calculation}
+      xywh {5 5 685 25} box THIN_UP_BOX labelfont 1
+    }
+    Fl_Button {} {
+      label {&Quit}
+      callback {exit( 0 );}
+      xywh {5 670 685 25} labelfont 1
+    }
+    Fl_Group {} {open
+      xywh {20 320 650 335} box DOWN_BOX resizable
+    } {
+      Fl_Button {} {
+        label H
+        xywh {30 330 30 25} color 180
+      }
+      Fl_Button {} {
+        label Li
+        callback {fcoccalc_periodic_select_elt( "li" );}
+        xywh {30 360 30 25} color 180
+      }
+      Fl_Button {} {
+        label Na
+        callback {fcoccalc_periodic_select_elt( "na" );}
+        xywh {30 390 30 25} color 180
+      }
+      Fl_Button {} {
+        label K
+        callback {system( " xterm   "  );}
+        xywh {30 420 30 25} color 180
+      }
+      Fl_Button {} {
+        label Rb
+        callback {system( " xterm   "  );}
+        xywh {30 450 30 25} color 180
+      }
+      Fl_Button {} {
+        label Cs
+        callback {fcoccalc_periodic_select_elt( "cs" );}
+        xywh {30 480 30 25} color 180
+      }
+      Fl_Button {} {
+        label Fr
+        callback {system( " xterm   "  );}
+        xywh {30 510 30 25} color 180
+      }
+      Fl_Button {} {
+        label Be
+        callback {fcoccalc_periodic_select_elt( "be" );}
+        xywh {65 360 30 25} color 90
+      }
+      Fl_Button {} {
+        label Mg
+        callback {fcoccalc_periodic_select_elt( "mg" );}
+        xywh {65 390 30 25} color 90
+      }
+      Fl_Button {} {
+        label Ca
+        callback {system( " xterm   "  );}
+        xywh {65 420 30 25} color 90
+      }
+      Fl_Button {} {
+        label Sr
+        callback {system( " xterm   "  );}
+        xywh {65 450 30 25} color 90
+      }
+      Fl_Button {} {
+        label Ba
+        callback {system( " xterm   "  );}
+        xywh {65 480 30 25} color 90
+      }
+      Fl_Button {} {
+        label Ra
+        callback {system( " xterm   "  );}
+        xywh {65 510 30 25} color 90
+      }
+      Fl_Button {} {
+        label Sc
+        callback {fcoccalc_periodic_select_elt( "sc" );}
+        xywh {100 420 30 25} color 174
+      }
+      Fl_Button {} {
+        label Y
+        callback {fcoccalc_periodic_select_elt( "y" );}
+        xywh {100 450 30 25} color 174
+      }
+      Fl_Button {} {
+        label Lu
+        callback {fcoccalc_periodic_select_elt( "lu" );}
+        xywh {100 480 30 25} color 174
+      }
+      Fl_Button {} {
+        label Lr
+        callback {system( " xterm   "  );}
+        xywh {100 510 30 25}
+      }
+      Fl_Button {} {
+        label Ti
+        callback {fcoccalc_periodic_select_elt( "ti" );}
+        xywh {135 420 30 25} color 174
+      }
+      Fl_Button {} {
+        label Zr
+        callback {fcoccalc_periodic_select_elt( "zr" );}
+        xywh {135 450 30 25} color 174
+      }
+      Fl_Button {} {
+        label Hf
+        callback {fcoccalc_periodic_select_elt( "hf" );}
+        xywh {135 480 30 25} color 174
+      }
+      Fl_Button {} {
+        label Rf
+        callback {system( " xterm   "  );}
+        xywh {135 510 30 25}
+      }
+      Fl_Button {} {
+        label V
+        callback {fcoccalc_periodic_select_elt( "v" );}
+        xywh {170 420 30 25} color 174
+      }
+      Fl_Button {} {
+        label Nb
+        callback {fcoccalc_periodic_select_elt( "nb" );}
+        xywh {170 450 30 25} color 174
+      }
+      Fl_Button {} {
+        label Ta
+        callback {fcoccalc_periodic_select_elt( "ta" );}
+        xywh {170 480 30 25} color 174
+      }
+      Fl_Button {} {
+        label Db
+        callback {system( " xterm   "  );}
+        xywh {170 510 30 25}
+      }
+      Fl_Button {} {
+        label Cr
+        callback {fcoccalc_periodic_select_elt( "cr" );}
+        xywh {205 420 30 25} color 174
+      }
+      Fl_Button {} {
+        label Mo
+        callback {fcoccalc_periodic_select_elt( "mo" );}
+        xywh {205 450 30 25} color 174
+      }
+      Fl_Button {} {
+        label W
+        callback {fcoccalc_periodic_select_elt( "w" );}
+        xywh {205 480 30 25} color 174
+      }
+      Fl_Button {} {
+        label Sg
+        callback {system( " xterm   "  );}
+        xywh {205 510 30 25}
+      }
+      Fl_Button {} {
+        label Mn
+        callback {fcoccalc_periodic_select_elt( "mn" );}
+        xywh {240 420 30 25} color 174
+      }
+      Fl_Button {} {
+        label Tc
+        callback {fcoccalc_periodic_select_elt( "tc" );}
+        xywh {240 450 30 25} color 174
+      }
+      Fl_Button {} {
+        label Re
+        callback {fcoccalc_periodic_select_elt( "re" );}
+        xywh {240 480 30 25} color 174
+      }
+      Fl_Button {} {
+        label Bh
+        callback {system( " xterm   "  );}
+        xywh {240 510 30 25}
+      }
+      Fl_Button {} {
+        label Fe
+        callback {fcoccalc_periodic_select_elt( "fe" );}
+        xywh {275 420 30 25} color 174
+      }
+      Fl_Button {} {
+        label Ru
+        callback {fcoccalc_periodic_select_elt( "ru" );}
+        xywh {275 450 30 25} color 174
+      }
+      Fl_Button {} {
+        label Os
+        callback {fcoccalc_periodic_select_elt( "os" );}
+        xywh {275 480 30 25} color 174
+      }
+      Fl_Button {} {
+        label Hs
+        callback {system( " xterm   "  );}
+        xywh {275 510 30 25}
+      }
+      Fl_Button {} {
+        label Co
+        callback {fcoccalc_periodic_select_elt( "co" );}
+        xywh {310 420 30 25} color 174
+      }
+      Fl_Button {} {
+        label Rh
+        callback {fcoccalc_periodic_select_elt( "rh" );}
+        xywh {310 450 30 25} color 174
+      }
+      Fl_Button {} {
+        label Ir
+        callback {fcoccalc_periodic_select_elt( "ir" );}
+        xywh {310 480 30 25} color 174
+      }
+      Fl_Button {} {
+        label Mt
+        callback {system( " xterm   "  );}
+        xywh {310 510 30 25}
+      }
+      Fl_Button {} {
+        label Ni
+        callback {fcoccalc_periodic_select_elt( "ni" );}
+        xywh {345 420 30 25} color 174
+      }
+      Fl_Button {} {
+        label Pd
+        callback {fcoccalc_periodic_select_elt( "pd" );}
+        xywh {345 450 30 25} color 174
+      }
+      Fl_Button {} {
+        label Pt
+        callback {fcoccalc_periodic_select_elt( "pt" );}
+        xywh {345 480 30 25} color 174
+      }
+      Fl_Button {} {
+        label Ds
+        callback {system( " xterm   "  );}
+        xywh {345 510 30 25}
+      }
+      Fl_Button {} {
+        label Cu
+        callback {fcoccalc_periodic_select_elt( "cu" );}
+        xywh {380 420 30 25} color 174
+      }
+      Fl_Button {} {
+        label Ag
+        callback {fcoccalc_periodic_select_elt( "ag" );}
+        xywh {380 450 30 25} color 174
+      }
+      Fl_Button {} {
+        label Au
+        callback {fcoccalc_periodic_select_elt( "au" );}
+        xywh {380 480 30 25} color 174
+      }
+      Fl_Button {} {
+        label Rg
+        callback {system( " xterm   "  );}
+        xywh {380 510 30 25}
+      }
+      Fl_Button {} {
+        label Zn
+        callback {fcoccalc_periodic_select_elt( "zn" );}
+        xywh {415 420 30 25} color 174
+      }
+      Fl_Button {} {
+        label Cd
+        callback {fcoccalc_periodic_select_elt( "cd" );}
+        xywh {415 450 30 25} color 174
+      }
+      Fl_Button {} {
+        label Hg
+        callback {fcoccalc_periodic_select_elt( "hg" );}
+        xywh {415 480 30 25} color 174
+      }
+      Fl_Button {} {
+        label Cn
+        callback {system( " xterm   "  );}
+        xywh {415 510 30 25}
+      }
+      Fl_Button {} {
+        label B
+        callback {system( " xterm   "  );}
+        xywh {450 360 30 25} color 252
+      }
+      Fl_Button {} {
+        label Al
+        callback {fcoccalc_periodic_select_elt( "al" );}
+        xywh {450 390 30 25} color 237
+      }
+      Fl_Button {} {
+        label Ga
+        callback {fcoccalc_periodic_select_elt( "ga" );}
+        xywh {450 420 30 25} color 237
+      }
+      Fl_Button {} {
+        label In
+        callback {fcoccalc_periodic_select_elt( "in" );}
+        xywh {450 450 30 25} color 237
+      }
+      Fl_Button {} {
+        label TI
+        callback {system( " xterm   "  );}
+        xywh {450 480 30 25} color 237
+      }
+      Fl_Button {} {
+        label Uut
+        callback {system( " xterm   "  );}
+        xywh {450 510 30 25}
+      }
+      Fl_Button {} {
+        label C
+        callback {fcoccalc_periodic_select_elt( "c" );}
+        xywh {485 360 30 25} color 70
+      }
+      Fl_Button {} {
+        label Si
+        callback {fcoccalc_periodic_select_elt( "si" );}
+        xywh {485 390 30 25} color 252
+      }
+      Fl_Button {} {
+        label Ge
+        callback {fcoccalc_periodic_select_elt( "ge" );}
+        xywh {485 420 30 25} color 252
+      }
+      Fl_Button {} {
+        label Sn
+        callback {fcoccalc_periodic_select_elt( "sn" );}
+        xywh {485 450 30 25} color 237
+      }
+      Fl_Button {} {
+        label Pb
+        callback {fcoccalc_periodic_select_elt( "pb" );}
+        xywh {485 480 30 25} color 237
+      }
+      Fl_Button {} {
+        label Uuq
+        callback {system( " xterm   "  );}
+        xywh {485 510 30 25}
+      }
+      Fl_Button {} {
+        label N
+        callback {system( " xterm   "  );}
+        xywh {520 360 30 25} color 70
+      }
+      Fl_Button {} {
+        label P
+        callback {system( " xterm   "  );}
+        xywh {520 390 30 25} color 70
+      }
+      Fl_Button {} {
+        label As
+        callback {fcoccalc_periodic_select_elt( "as" );}
+        xywh {520 420 30 25} color 252
+      }
+      Fl_Button {} {
+        label Sb
+        callback {fcoccalc_periodic_select_elt( "sb" );}
+        xywh {520 450 30 25} color 252
+      }
+      Fl_Button {} {
+        label Bi
+        callback {fcoccalc_periodic_select_elt( "bi" );}
+        xywh {520 480 30 25} color 237
+      }
+      Fl_Button {} {
+        label Uup
+        callback {system( " xterm   "  );}
+        xywh {520 510 30 25}
+      }
+      Fl_Button {} {
+        label O
+        callback {fcoccalc_periodic_select_elt( "o" );}
+        xywh {555 360 30 25} color 70
+      }
+      Fl_Button {} {
+        label S
+        callback {system( " xterm   "  );}
+        xywh {555 390 30 25} color 70
+      }
+      Fl_Button {} {
+        label Se
+        callback {fcoccalc_periodic_select_elt( "se" );}
+        xywh {555 420 30 25} color 70
+      }
+      Fl_Button {} {
+        label Te
+        callback {fcoccalc_periodic_select_elt( "te" );}
+        xywh {555 450 30 25} color 252
+      }
+      Fl_Button {} {
+        label Po
+        callback {fcoccalc_periodic_select_elt( "po" );}
+        xywh {555 480 30 25} color 252
+      }
+      Fl_Button {} {
+        label Uuh
+        callback {system( " xterm   "  );}
+        xywh {555 510 30 25}
+      }
+      Fl_Button {} {
+        label F
+        callback {system( " xterm   "  );}
+        xywh {590 360 30 25} color 252
+      }
+      Fl_Button {} {
+        label Cl
+        callback {fcoccalc_periodic_select_elt( "cl" );}
+        xywh {590 390 30 25} color 252
+      }
+      Fl_Button {} {
+        label Br
+        callback {system( " xterm   "  );}
+        xywh {590 420 30 25} color 252
+      }
+      Fl_Button {} {
+        label I
+        callback {system( " xterm   "  );}
+        xywh {590 450 30 25} color 252
+      }
+      Fl_Button {} {
+        label At
+        callback {fcoccalc_periodic_select_elt( "at" );}
+        xywh {590 480 30 25} color 252
+      }
+      Fl_Button {} {
+        label Uus
+        callback {system( " xterm   "  );}
+        xywh {590 510 30 25}
+      }
+      Fl_Button {} {
+        label Ne
+        callback {system( " xterm   "  );}
+        xywh {625 360 30 25} color 9 labelfont 1
+      }
+      Fl_Button {} {
+        label Ar
+        callback {system( " xterm   "  );}
+        xywh {625 390 30 25} color 9 labelfont 1
+      }
+      Fl_Button {} {
+        label Kr
+        callback {system( " xterm   "  );}
+        xywh {625 420 30 25} color 9 labelfont 1
+      }
+      Fl_Button {} {
+        label Xe
+        callback {system( " xterm   "  );}
+        xywh {625 450 30 25} color 9 labelfont 1
+      }
+      Fl_Button {} {
+        label Rn
+        callback {fcoccalc_periodic_select_elt( "rn" );}
+        xywh {625 480 30 25} color 9 labelfont 1
+      }
+      Fl_Button {} {
+        label Uuo
+        callback {system( " xterm   "  );}
+        xywh {625 510 30 25}
+      }
+      Fl_Button {} {
+        label He
+        xywh {625 330 30 25} color 9 labelfont 1
+      }
+      Fl_Button {} {
+        label La
+        callback {system( " xterm   "  );}
+        xywh {100 575 30 25}
+      }
+      Fl_Button {} {
+        label Ac
+        callback {system( " xterm   "  );}
+        xywh {100 605 30 25}
+      }
+      Fl_Button {} {
+        label Ce
+        callback {system( " xterm   "  );}
+        xywh {135 575 30 25}
+      }
+      Fl_Button {} {
+        label Th
+        callback {system( " xterm   "  );}
+        xywh {135 605 30 25}
+      }
+      Fl_Button {} {
+        label Pr
+        callback {system( " xterm   "  );}
+        xywh {170 575 30 25}
+      }
+      Fl_Button {} {
+        label Pa
+        callback {system( " xterm   "  );}
+        xywh {170 605 30 25}
+      }
+      Fl_Button {} {
+        label Nd
+        callback {system( " xterm   "  );}
+        xywh {205 575 30 25}
+      }
+      Fl_Button {} {
+        label U
+        callback {system( " xterm   "  );}
+        xywh {205 605 30 25}
+      }
+      Fl_Button {} {
+        label Pm
+        callback {system( " xterm   "  );}
+        xywh {240 575 30 25}
+      }
+      Fl_Button {} {
+        label Np
+        callback {system( " xterm   "  );}
+        xywh {240 605 30 25}
+      }
+      Fl_Button {} {
+        label Sm
+        callback {system( " xterm   "  );}
+        xywh {275 575 30 25}
+      }
+      Fl_Button {} {
+        label Pu
+        callback {system( " xterm   "  );}
+        xywh {275 605 30 25}
+      }
+      Fl_Button {} {
+        label Eu
+        callback {system( " xterm   "  );}
+        xywh {310 575 30 25}
+      }
+      Fl_Button {} {
+        label Am
+        callback {system( " xterm   "  );}
+        xywh {310 605 30 25}
+      }
+      Fl_Button {} {
+        label Gd
+        callback {system( " xterm   "  );}
+        xywh {345 575 30 25}
+      }
+      Fl_Button {} {
+        label Cm
+        callback {system( " xterm   "  );}
+        xywh {345 605 30 25}
+      }
+      Fl_Button {} {
+        label Tb
+        callback {system( " xterm   "  );}
+        xywh {380 575 30 25}
+      }
+      Fl_Button {} {
+        label Bk
+        callback {system( " xterm   "  );}
+        xywh {380 605 30 25}
+      }
+      Fl_Button {} {
+        label Dy
+        callback {system( " xterm   "  );}
+        xywh {415 575 30 25}
+      }
+      Fl_Button {} {
+        label Cf
+        callback {system( " xterm   "  );}
+        xywh {415 605 30 25}
+      }
+      Fl_Button {} {
+        label Ho
+        callback {system( " xterm   "  );}
+        xywh {450 575 30 25}
+      }
+      Fl_Button {} {
+        label Es
+        callback {system( " xterm   "  );}
+        xywh {450 605 30 25}
+      }
+      Fl_Button {} {
+        label Er
+        callback {system( " xterm   "  );}
+        xywh {485 575 30 25}
+      }
+      Fl_Button {} {
+        label Fm
+        callback {system( " xterm   "  );}
+        xywh {485 605 30 25}
+      }
+      Fl_Button {} {
+        label Tm
+        callback {system( " xterm   "  );}
+        xywh {520 575 30 25}
+      }
+      Fl_Button {} {
+        label Md
+        callback {system( " xterm   "  );}
+        xywh {520 605 30 25}
+      }
+      Fl_Button {} {
+        label Yb
+        callback {system( " xterm   "  );}
+        xywh {555 575 30 25}
+      }
+      Fl_Button {} {
+        label No
+        callback {system( " xterm   "  );}
+        xywh {555 605 30 25}
+      }
+    }
+    Fl_Tabs {} {
+      label Menu open
+      xywh {10 60 675 245}
+    } {
+      Fl_Group {} {
+        label Binary open
+        xywh {20 85 660 220}
+      } {
+        Fl_Group {} {
+          label Parameters open selected
+          xywh {20 115 650 175} box DOWN_BOX
+        } {
+          Fl_Input var_input_floc_elements {
+            label Elements
+            xywh {110 135 240 25}
+          }
+          Fl_Input var_input_floc_variable1 {
+            label Variable1
+            xywh {110 170 240 25}
+          }
+          Fl_Input var_input_floc_variable2 {
+            label Variable2
+            xywh {110 205 240 25}
+            code1 {var_input_floc_variable2->value( "t" );}
+          }
+          Fl_Input var_input_floc_database {
+            label Database
+            xywh {110 240 240 25}
+            code1 {var_input_floc_database->value( "unary50.tdb" );}
+          }
+          Fl_Button {} {
+            label {&2. Edit}
+            callback {system( "  screen -d -m flnotepad macro.ocm " );}
+            xywh {490 165 160 35} labelfont 1
+          }
+          Fl_Button {} {
+            label {&1. Create}
+            callback {// unary50.tdb
+
+    statusbar->value( " > Performing a binary calculation" );
+
+        FILE *source;
+        int ch ;
+        if ( fexist( "unary50.tdb" ) == 1 ) 
+        {
+                source = fopen( "unary50.tdb" , "r");
+                while( ( ch = fgetc( source ) ) != EOF )
+                {
+                        // printf( "%c", ch );
+                }
+                fclose(source);
+        }
+        
+        
+        
+        
+        
+        
+        char foostr[PATH_MAX];  
+        char fooelement1[PATH_MAX];
+        char fooelement2[PATH_MAX];
+        
+        
+        
+
+      char str[PATH_MAX];
+      char ptr[strlen(str)+1];
+      int i,j=0;
+      int foundelement = 0; 
+      /// ELEMENT \#1      
+      /// str element 1
+      strncpy( str, var_input_floc_elements->value(), PATH_MAX ); 
+      for(i=0; str[i]!='\\0'; i++)
+      {
+        if ( str[i] == ' ' )
+        {
+          //ptr[j++]='-';        
+          foundelement = 1; 
+        }
+        else if (str[i] != '\\n' && str[i] != '\\n') 
+        {
+             if ( foundelement == 0 ) 
+             { 
+                ptr[j++]=str[i];
+             }
+             else 
+             {
+             }
+        }
+      } 
+      ptr[j]='\\0';
+      printf( "Char opr. EL1 => %s\\n" , ptr );  
+      strncpy( fooelement1, ptr, PATH_MAX ); 
+
+
+      /// ELEMENT \#2
+      /// str element 2 
+      // strncpy( str, "", PATH_MAX ); 
+      snprintf( ptr , sizeof( ptr ), "" ); 
+      snprintf( str , sizeof( str ), "" ); 
+      strncpy( str, var_input_floc_elements->value(), PATH_MAX ); 
+      i = 0; j = 0; 
+      foundelement = 0 ;
+      for(i=0; str[i]!='\\0'; i++)
+      {
+        if ( str[i] == ' ' )
+        {
+          //ptr[j++]='-';        
+          foundelement++; 
+        }
+        else if (str[i] != '\\n' && str[i] != '\\n') 
+        {
+             if ( foundelement == 1 ) 
+             { 
+                ptr[j++]=str[i];
+             }
+             else 
+             {
+             }
+        }
+      } 
+      ptr[j]='\\0';
+      printf( "Char opr. EL2 => %s\\n" , ptr );  
+      strncpy( fooelement2, ptr, PATH_MAX ); 
+
+        
+        
+        FILE *fpout;
+        fpout = fopen( "macro.ocm", "wb" );
+        
+        fputs( "\\n" , fpout);
+	fputs( "new Y\\n" , fpout ); 
+	fputs( "\\n" , fpout ); 
+	fputs( "\\n" , fpout ); 
+	fputs( "set echo\\n" , fpout ); 
+	fputs( "\\n" , fpout ); 
+	
+
+	//fputs( "r t ./unary50.tdb\\n" , fpout );       
+        snprintf( foostr , sizeof( foostr ), "r t ./%s\\n" ,  var_input_floc_database->value() ); 
+        printf( "Item %s\\n", foostr ); 
+        fputs( foostr , fpout ); 
+
+        snprintf( foostr , sizeof( foostr ), "%s\\n" ,  var_input_floc_elements->value() ); 
+        printf( "Item %s\\n", foostr ); 
+        fputs( foostr   , fpout );  
+	//fputs( "au pd\\n" , fpout ); 
+
+	fputs( "\\n" , fpout ); 
+	fputs( "\\n" , fpout ); 
+	
+	
+	// fputs( "set cond t=1000 p=1e5 n=1 x(pd)=.2\\n" , fpout ); 
+	// fooelement2
+        snprintf( foostr , sizeof( foostr ), "set cond t=1000 p=1e5 n=1 x(%s)=.2\\n" , fooelement2  ); 
+        printf( "Item %s\\n", foostr ); 
+        fputs( foostr   , fpout );
+         
+	
+	fputs( "\\n" , fpout ); 
+	fputs( "c e\\n" , fpout ); 
+	fputs( "\\n" , fpout ); 
+	fputs( "l r 1\\n" , fpout ); 
+	fputs( "\\n" , fpout ); 
+	fputs( " \\n" , fpout ); 
+	fputs( "\\n" , fpout ); 
+	
+	
+	//fputs( "set ax 1 x(pd) 0 1 0.025\\n" , fpout ); 
+	// fooelement2
+        snprintf( foostr , sizeof( foostr ), "set ax 1 x(%s) 0 1 0.025\\n" , fooelement2  ); 
+        printf( "Item %s\\n", foostr ); 
+        fputs( foostr   , fpout ); 
+	
+	fputs( "set ax 2 t 500 2500 10\\n" , fpout ); 
+	fputs( "\\n" , fpout ); 
+	fputs( "l ax\\n" , fpout ); 
+	fputs( "\\n" , fpout ); 
+	fputs( "l sh\\n" , fpout ); 
+	fputs( "\\n" , fpout ); 
+
+        if ( var_fcoccalc_bin_calc_add_ref_phase->value() == 1 ) 
+        {	
+	  //fputs( "set ref au fcc,,,,,\\n" , fpout ); 
+	  // fooelement2
+          snprintf( foostr , sizeof( foostr ), "set ref %s fcc,,,,,\\n" , fooelement1  ); 
+          printf( "Item %s\\n", foostr ); 
+          fputs( foostr   , fpout );
+	
+  	  //fputs( "set ref pd fcc,,,,,\\n" , fpout ); 
+  	  // fooelement2
+          snprintf( foostr , sizeof( foostr ), "set ref %s fcc,,,,,\\n" , fooelement2  ); 
+          printf( "Item %s\\n", foostr ); 
+          fputs( foostr   , fpout );
+        }
+	
+	fputs( "\\n" , fpout ); 
+	fputs( " \\n" , fpout ); 
+	fputs( "\\n" , fpout ); 
+	fputs( "map\\n" , fpout ); 
+	fputs( "\\n" , fpout ); 
+	fputs( " \\n" , fpout ); 
+	fputs( "\\n" , fpout ); 
+	fputs( "\\n" , fpout ); 
+	fputs( "plot\\n" , fpout ); 
+	
+	//fputs( "x(*,pd)\\n" , fpout ); 
+	// fooelement2
+        snprintf( foostr , sizeof( foostr ), "x(*,%s)\\n" , fooelement2  ); 
+        printf( "Item %s\\n", foostr ); 
+        fputs( foostr   , fpout ); 
+	
+	fputs( "T\\n" , fpout ); 
+	fputs( "title map 1 fig 1, temp Kelvin\\n" , fpout ); 
+	fputs( "render\\n" , fpout ); 
+	fputs( "\\n" , fpout ); 
+        
+        fclose( fpout );
+	/// eob}
+            xywh {490 130 160 35} labelfont 1
+          }
+          Fl_Button {} {
+            label {&4. Plot}
+            callback {system(  "  screen -d  -m  gnuplot ocgnu.plt  " );}
+            xywh {490 235 160 35} labelfont 1
+          }
+          Fl_Button {} {
+            label {&3. Compute}
+            callback {system(  "  rm ocgnu.plt  ;   screen -d  -m   xterm -e   oc   macro.ocm " );}
+            xywh {490 200 160 35} labelfont 1
+          }
+          Fl_Button {} {
+            label CA
+            callback {var_input_floc_elements->value( "" );}
+            xywh {350 135 30 25}
+          }
+          Fl_Button {} {
+            label CA
+            callback {var_input_floc_variable1->value( "" );}
+            xywh {350 170 30 25}
+          }
+          Fl_Button {} {
+            label CA
+            callback {var_input_floc_variable2->value( "" );}
+            xywh {350 205 30 25}
+          }
+          Fl_Button {} {
+            label CA
+            callback {var_input_floc_database->value( "" );
+//unary50.tdb
+//var_input_floc_database->value( "unary50.tdb" );}
+            xywh {350 240 30 25}
+          }
+          Fl_Button {} {
+            label {&OP}
+            callback {foccalc_runwith(  "  screen -d -m flviewplus " ,  var_input_floc_database->value(  ) );}
+            xywh {380 240 30 25}
+          }
+          Fl_Button {} {
+            label {D&E}
+            callback {char str[PATH_MAX];
+      strncpy( str, var_input_floc_elements->value(), PATH_MAX ); 
+ 
+      char ptr[strlen(str)+1];
+      int i,j=0;
+      for(i=0; str[i]!='\\0'; i++)
+      {
+        if ( str[i] == ' ' )
+        {
+          ptr[j++]='-';        
+        }
+        else if (str[i] != '\\n' && str[i] != '\\n') 
+          ptr[j++]=str[i];
+      } 
+      ptr[j]='\\0';
+
+ 
+
+  char foostr[PATH_MAX];
+  snprintf( foostr , sizeof( foostr ), "%s%s.jpg' " ,  "    screen -d -m  dillo  'https://www.crct.polymtl.ca/fact/documentation/SGTE2017/" , ptr );  // ptr
+  printf( "CMD %s\\n", foostr ); 
+  system( foostr ) ;
+   
+   
+// https://www.crct.polymtl.ca/fact/documentation/SGTE2017/Al-Si.jpg
+// var_input_floc_elements->value( "" );}
+            xywh {380 135 30 25}
+          }
+        }
+      }
+      Fl_Group {} {
+        label Database open
+        xywh {25 85 660 220} hide
+      } {
+        Fl_Group {} {open
+          xywh {25 100 650 200} box DOWN_BOX resizable
+        } {
+          Fl_File_Browser win_macro_flbrowser1 {
+            callback {if ( win_macro_flbrowser1->value() >= 1 ) 
+ win_macro_flbrowser1_output1->value(  win_macro_flbrowser1->text( win_macro_flbrowser1->value() ) );}
+            xywh {35 110 525 155} resizable
+            code1 {win_macro_flbrowser1->type( FL_HOLD_BROWSER  );}
+          }
+          Fl_Output win_macro_flbrowser1_output1 {
+            xywh {35 270 525 20} color 49 labelsize 12 textsize 12
+          }
+          Fl_Button {} {
+            label {&Browse}
+            callback {win_macro_flbrowser1->clear();
+  //     win_macro_flbrowser1->filter( 0 ); 
+  
+  
+  // win_macro_flbrowser1_filter->value( "*.tdb" );
+  
+  win_macro_flbrowser1->filter(  win_macro_flbrowser1_filter->value( )  ); 
+  
+     win_macro_flbrowser1->load( "." );
+     
+     
+     //eow}
+            xywh {570 110 95 25}
+          }
+          Fl_Button {} {
+            label {&Sel. TDB}
+            callback {char foofile[PATH_MAX];
+if ( win_macro_flbrowser1->value() >= 1 ) 
+{
+   var_input_floc_database->value(  win_macro_flbrowser1->text( win_macro_flbrowser1->value() ) );
+}}
+            xywh {570 145 95 25} labelfont 1
+          }
+          Fl_Button {} {
+            label {&Preview}
+            callback {system( "   screen -d -m flpreview  " );}
+            xywh {570 215 95 25}
+          }
+          Fl_Button {} {
+            label {&View}
+            callback {if ( win_macro_flbrowser1->value() >= 1 ) 
+{
+   // var_input_floc_database->value(  win_macro_flbrowser1->text( win_macro_flbrowser1->value() ) );
+   foccalc_runwith(  " screen -d -m flviewplus " ,   win_macro_flbrowser1->text( win_macro_flbrowser1->value() )  ); 
+}}
+            xywh {570 180 95 25}
+          }
+          Fl_Input win_macro_flbrowser1_filter {
+            label Filter
+            xywh {605 265 55 25} labelsize 12 textsize 12
+            code1 {win_macro_flbrowser1_filter->value( "*.tdb" );}
+          }
+        }
+      }
+      Fl_Group {} {
+        label Web open
+        xywh {25 85 655 215} hide
+      } {
+        Fl_Group {} {
+          label Parameters open
+          xywh {25 125 645 160} box DOWN_BOX
+        } {
+          Fl_Button {} {
+            label {Open with Fact 2017, SGTE}
+            callback {char str[PATH_MAX];
+      strncpy( str, var_input_floc_elements->value(), PATH_MAX ); 
+      char ptr[strlen(str)+1];
+      int i,j=0;
+      for(i=0; str[i]!='\\0'; i++)
+      {
+        if ( str[i] == ' ' )
+        {
+          ptr[j++]='-';        
+        }
+        else if (str[i] != '\\n' && str[i] != '\\n') 
+          ptr[j++]=str[i];
+      } 
+      ptr[j]='\\0';
+
+ 
+
+  char foostr[PATH_MAX];
+  snprintf( foostr , sizeof( foostr ), "%s%s.jpg' " ,  "  screen -d -m   dillo  'https://www.crct.polymtl.ca/fact/documentation/SGTE2017/" , ptr );  // ptr
+  printf( "CMD %s\\n", foostr ); 
+  system( foostr ) ;
+   
+   
+// https://www.crct.polymtl.ca/fact/documentation/SGTE2017/Al-Si.jpg
+// var_input_floc_elements->value( "" );}
+            xywh {40 145 330 45} labelfont 1
+          }
+        }
+      }
+      Fl_Group {} {
+        label Settings open
+        xywh {30 85 650 210} hide
+      } {
+        Fl_Check_Button var_fcoccalc_bin_calc_add_ref_phase {
+          label {Add phase (e.g. fcc) reference.}
+          xywh {55 110 275 35} down_box DOWN_BOX
+        }
+        Fl_Button {} {
+          label {Current path}
+          callback {char ptr[PATH_MAX];
+    char cwd[PATH_MAX];
+    
+    snprintf( ptr , sizeof( ptr ), getcwd( cwd, PATH_MAX ) ); 
+    statusbar->value( ptr );}
+          xywh {525 110 140 25} labelfont 1
+        }
+        Fl_Output statusbar {
+          xywh {50 265 610 20} color 49
+        }
+      }
+    }
+  }
+  code {win1->show();} {}
+}
+
+Function {main( int argc, char *argv[] )} {open return_type int
+} {
+  code {char mydirnow[2500];  
+  //strncpy( inipath , getcwd( mydirnow, 2500 ), 2500 );
+  
+  // working dir 
+  if ( argc == 2)
+  if ( strcmp( argv[1] , "" ) !=  0 )
+  {
+          chdir( argv[ 1 ] );
+  }
+  //printf( "Current Directory: %s \\n", getcwd( mydirnow, 2500 ) );
+  //strncpy( userpath , getcwd( mydirnow, 2500 ), 2500 );
+
+
+
+
+ make_window();
+ Fl::run();
+ 
+ return 0;} {}
+}

@@ -1,0 +1,150 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0304
+header_name {.h}
+code_name {.cxx}
+decl {\#include <stdio.h>} {private local
+}
+
+decl {\#include <stdlib.h>} {private local
+}
+
+decl {\#include "ccode.h"} {private local
+}
+
+decl {char user_arg1[PATH_MAX];} {private local
+}
+
+decl {int flfontsize = 14;} {private local
+}
+
+Function {loadpanel( const char *pattern )} {open
+} {
+  code {printf("Load Panel!\\n");
+
+
+  
+  int fetchi;
+  FILE *fp5;
+  FILE *fp6;
+  char fetchline[PATH_MAX];
+  char fetchlinetmp[PATH_MAX];
+
+    fbrow->clear( );    
+    
+    fp6 = fopen( pattern , "rb");
+    while( !feof(fp6) ) 
+    {
+          fgets(fetchlinetmp, PATH_MAX, fp6); 
+          strncpy( fetchline, "" , PATH_MAX );
+          for( fetchi = 0 ; ( fetchi <= strlen( fetchlinetmp ) ); fetchi++ )
+            if ( fetchlinetmp[ fetchi ] != '\\n' )
+                 fetchline[fetchi]=fetchlinetmp[fetchi];
+                 
+                if ( !feof( fp6 ) ) 
+                {
+                 fbrow->add( fetchline );    
+                }
+
+     }
+     fclose( fp6 );} {}
+}
+
+Function {make_window()} {open
+} {
+  Fl_Window win1 {
+    label FLVIEWPLUS open
+    xywh {363 213 875 655} type Double resizable visible
+  } {
+    Fl_Button {} {
+      label {&Reload}
+      callback {loadpanel( user_arg1 );}
+      xywh {25 585 105 25} labelfont 1
+    }
+    Fl_Browser fbrow {
+      callback {// statusbar
+
+
+        
+if ( fbrow->value() >= 1 ) 
+ statusbar->value(  fbrow->text( fbrow->value() ) );}
+      xywh {25 40 825 540}
+      code0 {fbrow->labelsize( flfontsize  );}
+      code1 {fbrow->textsize( flfontsize  );}
+      code2 {fbrow->type(FL_HOLD_BROWSER);}
+    }
+    Fl_Button {} {
+      label {&Cancel}
+      callback {exit( 0 );}
+      xywh {745 585 105 30} labelfont 1
+    }
+    Fl_Button {} {
+      label {Font (&+)}
+      callback {flfontsize++;
+   fbrow->labelsize( flfontsize  );
+   fbrow->textsize( flfontsize  );
+
+
+//loadpanel( user_arg1 );}
+      xywh {275 585 75 25} labelfont 1
+    }
+    Fl_Button {} {
+      label {Font (&-)}
+      callback {flfontsize--;
+
+fbrow->labelsize( flfontsize  );
+   fbrow->textsize( flfontsize  );
+
+
+//loadpanel( user_arg1 );}
+      xywh {185 585 75 25} labelfont 1
+    }
+    Fl_Box {} {
+      label {File Viewer} selected
+      xywh {25 5 825 30} box ENGRAVED_BOX labeltype ENGRAVED_LABEL
+    }
+    Fl_Button {} {
+      label Edit
+      callback {char foocharo[PATH_MAX];
+        
+        snprintf( foocharo , sizeof( foocharo ), " screen -d -m  fledit \\"%s\\"  " ,   user_arg1   ); 
+        
+        printf( " Command %s\\n", foocharo ); 
+        system(   foocharo ); 
+        
+           
+
+  loadpanel(   user_arg1   );}
+      xywh {360 585 105 25} labelfont 1
+    }
+    Fl_Output statusbar {
+      xywh {25 625 825 20} color 49 labelsize 12 textsize 12
+    }
+  }
+}
+
+Function {main( int argc, char *argv[])} {open return_type int
+} {
+  code {printf( " == FLVIEW == \\n" );
+
+  char mydirnow[2500];
+  printf( "Current Directory: %s \\n", getcwd( mydirnow, 2500 ) );
+ 
+  char filein[PATH_MAX];
+  char filesource[PATH_MAX];
+  strncpy( filesource , "/etc/hostname" , PATH_MAX );
+  strncpy( filein ,     filesource , PATH_MAX );
+  if ( argc == 2)
+  if ( strcmp( argv[1] , "" ) !=  0 ) 
+  {
+          strncpy( filein, argv[ 1 ], PATH_MAX );
+          strncpy( filesource , argv[ 1 ], PATH_MAX );
+  }
+  strncpy( user_arg1, filein , PATH_MAX );
+ 
+  make_window();
+  
+  loadpanel(   filein   );
+  
+  win1->show();
+  Fl::run();} {}
+}
