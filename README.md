@@ -23,4 +23,4 @@ c++  -I"/usr/X11R7/include/" -I"/usr/pkg/include" -I /usr/pkg/include/    -L"/us
 Copy to /usr/local/bin/ 
 
 Library: FLTK >=1.3
-
+Gnuplot, OpenCalphad need to be available in /usr/local/bin (or /usr/bin) directory. 
