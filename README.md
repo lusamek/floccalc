@@ -24,4 +24,4 @@ Copy to /usr/local/bin/
 
 Library: FLTK >=1.3
 
-Gnuplot, OpenCalphad need to be available in /usr/local/bin (or /usr/bin) directory. 
+Gnuplot, OpenCalphad (OC) required in /usr/local/bin (or /usr/bin) directory. 
