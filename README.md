@@ -24,4 +24,4 @@ Copy to /usr/local/bin/
 
 Library: FLTK >=1.3
 
-Gnuplot, Screen, OpenCalphad (OC) required in /usr/local/bin (or /usr/bin) directory. 
+Gnuplot, Dillo, Screen, OpenCalphad (OC) required in /usr/local/bin (or /usr/bin) directory. 
