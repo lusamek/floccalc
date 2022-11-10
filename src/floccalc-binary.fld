@@ -99,8 +99,8 @@ Function {fcoccalc_periodic_select_elt( const char *fooelement )} {open return_t
 Function {make_window()} {open
 } {
   Fl_Window win1 {
-    label FLOCCALC open
-    xywh {588 362 695 700} type Double box THIN_UP_BOX resizable visible
+    label {FLOCCALC-BINARY} open
+    xywh {957 132 695 700} type Double box THIN_UP_BOX resizable visible
   } {
     Fl_Box {} {
       label {Binary Calculation}
@@ -111,7 +111,7 @@ Function {make_window()} {open
       callback {exit( 0 );}
       xywh {5 670 685 25} labelfont 1
     }
-    Fl_Group {} {open
+    Fl_Group {} {open selected
       xywh {20 320 650 335} box DOWN_BOX resizable
     } {
       Fl_Button {} {
@@ -195,7 +195,7 @@ Function {make_window()} {open
       }
       Fl_Button {} {
         label Lr
-        callback {system( " xterm   "  );}
+        callback {fcoccalc_periodic_select_elt( "lr" );}
         xywh {100 510 30 25}
       }
       Fl_Button {} {
@@ -215,7 +215,7 @@ Function {make_window()} {open
       }
       Fl_Button {} {
         label Rf
-        callback {system( " xterm   "  );}
+        callback {fcoccalc_periodic_select_elt( "rf" );}
         xywh {135 510 30 25}
       }
       Fl_Button {} {
@@ -708,11 +708,11 @@ Function {make_window()} {open
       xywh {10 60 675 245}
     } {
       Fl_Group {} {
-        label Binary open
+        label {&Binary} open
         xywh {20 85 660 220}
       } {
         Fl_Group {} {
-          label Parameters open selected
+          label Parameters open
           xywh {20 115 650 175} box DOWN_BOX
         } {
           Fl_Input var_input_floc_elements {
@@ -730,8 +730,11 @@ Function {make_window()} {open
           }
           Fl_Input var_input_floc_database {
             label Database
+            callback {// cost507R.TDB
+// unary cannot calc bin
+// var_input_floc_database->value( "unary50.tdb" );}
             xywh {110 240 240 25}
-            code1 {var_input_floc_database->value( "unary50.tdb" );}
+            code1 {var_input_floc_database->value( "cost507R.TDB" );}
           }
           Fl_Button {} {
             label {&2. Edit}
@@ -957,12 +960,15 @@ Function {make_window()} {open
             xywh {350 240 30 25}
           }
           Fl_Button {} {
-            label {&OP}
-            callback {foccalc_runwith(  "  screen -d -m flviewplus " ,  var_input_floc_database->value(  ) );}
-            xywh {380 240 30 25}
+            label {&>>}
+            callback {// foccalc_runwith(  "  screen -d -m flviewplus " ,  var_input_floc_database->value(  ) );
+
+
+foccalc_runwith(  "  screen -d -m flview " ,  var_input_floc_database->value(  ) );}
+            xywh {385 240 35 25}
           }
           Fl_Button {} {
-            label {D&E}
+            label {D&B}
             callback {char str[PATH_MAX];
       strncpy( str, var_input_floc_elements->value(), PATH_MAX ); 
  
@@ -982,19 +988,42 @@ Function {make_window()} {open
  
 
   char foostr[PATH_MAX];
-  snprintf( foostr , sizeof( foostr ), "%s%s.jpg' " ,  "    screen -d -m  dillo  'https://www.crct.polymtl.ca/fact/documentation/SGTE2017/" , ptr );  // ptr
+  
+  if ( var_fcoccalc_web_browser_def_dillo->value() == 1 ) 
+  {
+     snprintf( foostr , sizeof( foostr ), "%s%s.jpg' " ,  "    screen -d -m  /usr/bin/dillo  'https://www.crct.polymtl.ca/fact/documentation/SGTE2017/" , ptr );  // ptr
+  }
+  
+  // ssl https... 
+  else if ( fexist( "/usr/bin/chromium" ) == 1 ) 
+      snprintf( foostr , sizeof( foostr ), "%s%s.jpg' " ,  "    screen -d -m  /usr/bin/chromium  'https://www.crct.polymtl.ca/fact/documentation/SGTE2017/" , ptr );  // ptr
+
+  else if ( fexist( "/usr/bin/chromium-browser" ) == 1 ) 
+      snprintf( foostr , sizeof( foostr ), "%s%s.jpg' " ,  "    screen -d -m  /usr/bin/chromium-browser  'https://www.crct.polymtl.ca/fact/documentation/SGTE2017/" , ptr );  // ptr
+
+  
+  else if ( fexist( "/usr/bin/firefox" ) == 1 ) 
+      snprintf( foostr , sizeof( foostr ), "%s%s.jpg' " ,  "    screen -d -m  /usr/bin/firefox  'https://www.crct.polymtl.ca/fact/documentation/SGTE2017/" , ptr );  // ptr
+
+
+  else 
+      snprintf( foostr , sizeof( foostr ), "%s%s.jpg' " ,  "    screen -d -m  dillo  'https://www.crct.polymtl.ca/fact/documentation/SGTE2017/" , ptr );  // ptr
+  
   printf( "CMD %s\\n", foostr ); 
   system( foostr ) ;
+  
+  
+  
    
    
 // https://www.crct.polymtl.ca/fact/documentation/SGTE2017/Al-Si.jpg
 // var_input_floc_elements->value( "" );}
-            xywh {380 135 30 25}
+            xywh {385 135 35 25}
           }
         }
       }
       Fl_Group {} {
-        label Database open
+        label {&Database} open
         xywh {25 85 660 220} hide
       } {
         Fl_Group {} {open
@@ -1026,7 +1055,7 @@ Function {make_window()} {open
             xywh {570 110 95 25}
           }
           Fl_Button {} {
-            label {&Sel. TDB}
+            label {&Select}
             callback {char foofile[PATH_MAX];
 if ( win_macro_flbrowser1->value() >= 1 ) 
 {
@@ -1056,7 +1085,7 @@ if ( win_macro_flbrowser1->value() >= 1 )
         }
       }
       Fl_Group {} {
-        label Web open
+        label SGTE open
         xywh {25 85 655 215} hide
       } {
         Fl_Group {} {
@@ -1090,7 +1119,12 @@ if ( win_macro_flbrowser1->value() >= 1 )
    
 // https://www.crct.polymtl.ca/fact/documentation/SGTE2017/Al-Si.jpg
 // var_input_floc_elements->value( "" );}
-            xywh {40 145 330 45} labelfont 1
+            xywh {40 140 370 45} labelfont 1
+          }
+          Fl_Check_Button var_fcoccalc_web_browser_def_dillo {
+            label {Open SGTE diagram with dillo}
+            xywh {40 195 275 35} down_box DOWN_BOX
+            code1 {var_fcoccalc_web_browser_def_dillo->value( 0 );}
           }
         }
       }
@@ -1099,20 +1133,56 @@ if ( win_macro_flbrowser1->value() >= 1 )
         xywh {30 85 650 210} hide
       } {
         Fl_Check_Button var_fcoccalc_bin_calc_add_ref_phase {
-          label {Add phase (e.g. fcc) reference.}
-          xywh {55 110 275 35} down_box DOWN_BOX
+          label {Add phase (e.g. fcc) reference for calculations.}
+          xywh {35 110 355 35} down_box DOWN_BOX
         }
-        Fl_Button {} {
-          label {Current path}
-          callback {char ptr[PATH_MAX];
+      }
+      Fl_Group {} {
+        label Help open
+        xywh {25 85 660 220} hide
+      } {
+        Fl_Group {} {open
+          xywh {30 120 645 160} box DOWN_BOX
+        } {
+          Fl_Button {} {
+            label {Website OC Calc Utility}
+            callback {char foostr[PATH_MAX];
+  snprintf( foostr , sizeof( foostr ),    " cd ; screen -d -m   dillo  ' https://github.com/lusamek/floccalc'   " );    
+  printf( "CMD %s\\n", foostr ); 
+  system( foostr ) ;}
+            xywh {45 135 230 30} labelfont 1
+          }
+          Fl_Button {} {
+            label {Periodic table of elements and information}
+            callback {// This program shows the periodic table of elements and information about these elements  
+   
+   
+   if ( fexist( "/usr/bin/kalzium" ) == 1 )
+   
+     system( " screen -d -m /usr/bin/kalzium  " );   
+
+   
+   else if ( fexist( "/usr/bin/gperiodic" ) == 1 )
+   
+     system( " screen -d -m /usr/bin/gperiodic  " );   
+     
+   else 
+    
+     system( " screen -d -m flperiodic  " );}
+            xywh {285 135 375 30} labelfont 1
+          }
+          Fl_Button {} {
+            label {Current path}
+            callback {char ptr[PATH_MAX];
     char cwd[PATH_MAX];
     
     snprintf( ptr , sizeof( ptr ), getcwd( cwd, PATH_MAX ) ); 
     statusbar->value( ptr );}
-          xywh {525 110 140 25} labelfont 1
-        }
-        Fl_Output statusbar {
-          xywh {50 265 610 20} color 49
+            xywh {45 190 140 25} labelfont 1
+          }
+          Fl_Output statusbar {
+            xywh {190 190 470 25} color 49
+          }
         }
       }
     }

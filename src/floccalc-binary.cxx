@@ -142,7 +142,7 @@ static void cb_Lu(Fl_Button*, void*) {
 }
 
 static void cb_Lr(Fl_Button*, void*) {
-  system( " xterm   "  );
+  fcoccalc_periodic_select_elt( "lr" );
 }
 
 static void cb_Ti(Fl_Button*, void*) {
@@ -158,7 +158,7 @@ static void cb_Hf(Fl_Button*, void*) {
 }
 
 static void cb_Rf(Fl_Button*, void*) {
-  system( " xterm   "  );
+  fcoccalc_periodic_select_elt( "rf" );
 }
 
 static void cb_V(Fl_Button*, void* v) {
@@ -553,6 +553,12 @@ Fl_Input *var_input_floc_variable2=(Fl_Input *)0;
 
 Fl_Input *var_input_floc_database=(Fl_Input *)0;
 
+static void cb_var_input_floc_database(Fl_Input*, void*) {
+  // cost507R.TDB
+// unary cannot calc bin
+// var_input_floc_database->value( "unary50.tdb" );
+}
+
 static void cb_2(Fl_Button*, void*) {
   system( "  screen -d -m flnotepad macro.ocm " );
 }
@@ -768,8 +774,11 @@ static void cb_CA3(Fl_Button*, void*) {
 //var_input_floc_database->value( "unary50.tdb" );
 }
 
-static void cb_OP(Fl_Button*, void*) {
-  foccalc_runwith(  "  screen -d -m flviewplus " ,  var_input_floc_database->value(  ) );
+static void cb_(Fl_Button*, void*) {
+  // foccalc_runwith(  "  screen -d -m flviewplus " ,  var_input_floc_database->value(  ) );
+
+
+foccalc_runwith(  "  screen -d -m flview " ,  var_input_floc_database->value(  ) );
 }
 
 static void cb_D(Fl_Button*, void*) {
@@ -792,9 +801,32 @@ static void cb_D(Fl_Button*, void*) {
  
 
   char foostr[PATH_MAX];
-  snprintf( foostr , sizeof( foostr ), "%s%s.jpg' " ,  "    screen -d -m  dillo  'https://www.crct.polymtl.ca/fact/documentation/SGTE2017/" , ptr );  // ptr
+  
+  if ( var_fcoccalc_web_browser_def_dillo->value() == 1 ) 
+  {
+     snprintf( foostr , sizeof( foostr ), "%s%s.jpg' " ,  "    screen -d -m  /usr/bin/dillo  'https://www.crct.polymtl.ca/fact/documentation/SGTE2017/" , ptr );  // ptr
+  }
+  
+  // ssl https... 
+  else if ( fexist( "/usr/bin/chromium" ) == 1 ) 
+      snprintf( foostr , sizeof( foostr ), "%s%s.jpg' " ,  "    screen -d -m  /usr/bin/chromium  'https://www.crct.polymtl.ca/fact/documentation/SGTE2017/" , ptr );  // ptr
+
+  else if ( fexist( "/usr/bin/chromium-browser" ) == 1 ) 
+      snprintf( foostr , sizeof( foostr ), "%s%s.jpg' " ,  "    screen -d -m  /usr/bin/chromium-browser  'https://www.crct.polymtl.ca/fact/documentation/SGTE2017/" , ptr );  // ptr
+
+  
+  else if ( fexist( "/usr/bin/firefox" ) == 1 ) 
+      snprintf( foostr , sizeof( foostr ), "%s%s.jpg' " ,  "    screen -d -m  /usr/bin/firefox  'https://www.crct.polymtl.ca/fact/documentation/SGTE2017/" , ptr );  // ptr
+
+
+  else 
+      snprintf( foostr , sizeof( foostr ), "%s%s.jpg' " ,  "    screen -d -m  dillo  'https://www.crct.polymtl.ca/fact/documentation/SGTE2017/" , ptr );  // ptr
+  
   printf( "CMD %s\n", foostr ); 
   system( foostr ) ;
+  
+  
+  
    
    
 // https://www.crct.polymtl.ca/fact/documentation/SGTE2017/Al-Si.jpg
@@ -825,7 +857,7 @@ static void cb_Browse(Fl_Button*, void*) {
      //eow;
 }
 
-static void cb_Sel(Fl_Button*, void*) {
+static void cb_Select(Fl_Button*, void*) {
   char foofile[PATH_MAX];
 if ( win_macro_flbrowser1->value() >= 1 ) 
 {
@@ -875,7 +907,34 @@ static void cb_Open(Fl_Button*, void*) {
 // var_input_floc_elements->value( "" );
 }
 
+Fl_Check_Button *var_fcoccalc_web_browser_def_dillo=(Fl_Check_Button *)0;
+
 Fl_Check_Button *var_fcoccalc_bin_calc_add_ref_phase=(Fl_Check_Button *)0;
+
+static void cb_Website(Fl_Button*, void*) {
+  char foostr[PATH_MAX];
+  snprintf( foostr , sizeof( foostr ),    " cd ; screen -d -m   dillo  ' https://github.com/lusamek/floccalc'   " );    
+  printf( "CMD %s\n", foostr ); 
+  system( foostr ) ;
+}
+
+static void cb_Periodic(Fl_Button*, void*) {
+  // This program shows the periodic table of elements and information about these elements  
+   
+   
+   if ( fexist( "/usr/bin/kalzium" ) == 1 )
+   
+     system( " screen -d -m /usr/bin/kalzium  " );   
+
+   
+   else if ( fexist( "/usr/bin/gperiodic" ) == 1 )
+   
+     system( " screen -d -m /usr/bin/gperiodic  " );   
+     
+   else 
+    
+     system( " screen -d -m flperiodic  " );
+}
 
 static void cb_Current(Fl_Button*, void*) {
   char ptr[PATH_MAX];
@@ -888,7 +947,7 @@ static void cb_Current(Fl_Button*, void*) {
 Fl_Output *statusbar=(Fl_Output *)0;
 
 Fl_Double_Window* make_window() {
-  { win1 = new Fl_Double_Window(695, 700, "FLOCCALC");
+  { win1 = new Fl_Double_Window(695, 700, "FLOCCALC-BINARY");
     win1->box(FL_THIN_UP_BOX);
     { Fl_Box* o = new Fl_Box(5, 5, 685, 25, "Binary Calculation");
       o->box(FL_THIN_UP_BOX);
@@ -1336,7 +1395,7 @@ Fl_Double_Window* make_window() {
       Fl_Group::current()->resizable(o);
     } // Fl_Group* o
     { Fl_Tabs* o = new Fl_Tabs(10, 60, 675, 245, "Menu");
-      { Fl_Group* o = new Fl_Group(20, 85, 660, 220, "Binary");
+      { Fl_Group* o = new Fl_Group(20, 85, 660, 220, "&Binary");
         { Fl_Group* o = new Fl_Group(20, 115, 650, 175, "Parameters");
           o->box(FL_DOWN_BOX);
           { var_input_floc_elements = new Fl_Input(110, 135, 240, 25, "Elements");
@@ -1347,7 +1406,8 @@ Fl_Double_Window* make_window() {
             var_input_floc_variable2->value( "t" );
           } // Fl_Input* var_input_floc_variable2
           { var_input_floc_database = new Fl_Input(110, 240, 240, 25, "Database");
-            var_input_floc_database->value( "unary50.tdb" );
+            var_input_floc_database->callback((Fl_Callback*)cb_var_input_floc_database);
+            var_input_floc_database->value( "cost507R.TDB" );
           } // Fl_Input* var_input_floc_database
           { Fl_Button* o = new Fl_Button(490, 165, 160, 35, "&2. Edit");
             o->labelfont(1);
@@ -1377,17 +1437,17 @@ Fl_Double_Window* make_window() {
           { Fl_Button* o = new Fl_Button(350, 240, 30, 25, "CA");
             o->callback((Fl_Callback*)cb_CA3);
           } // Fl_Button* o
-          { Fl_Button* o = new Fl_Button(380, 240, 30, 25, "&OP");
-            o->callback((Fl_Callback*)cb_OP);
+          { Fl_Button* o = new Fl_Button(385, 240, 35, 25, "&>>");
+            o->callback((Fl_Callback*)cb_);
           } // Fl_Button* o
-          { Fl_Button* o = new Fl_Button(380, 135, 30, 25, "D&E");
+          { Fl_Button* o = new Fl_Button(385, 135, 35, 25, "D&B");
             o->callback((Fl_Callback*)cb_D);
           } // Fl_Button* o
           o->end();
         } // Fl_Group* o
         o->end();
       } // Fl_Group* o
-      { Fl_Group* o = new Fl_Group(25, 85, 660, 220, "Database");
+      { Fl_Group* o = new Fl_Group(25, 85, 660, 220, "&Database");
         o->hide();
         { Fl_Group* o = new Fl_Group(25, 100, 650, 200);
           o->box(FL_DOWN_BOX);
@@ -1404,9 +1464,9 @@ Fl_Double_Window* make_window() {
           { Fl_Button* o = new Fl_Button(570, 110, 95, 25, "&Browse");
             o->callback((Fl_Callback*)cb_Browse);
           } // Fl_Button* o
-          { Fl_Button* o = new Fl_Button(570, 145, 95, 25, "&Sel. TDB");
+          { Fl_Button* o = new Fl_Button(570, 145, 95, 25, "&Select");
             o->labelfont(1);
-            o->callback((Fl_Callback*)cb_Sel);
+            o->callback((Fl_Callback*)cb_Select);
           } // Fl_Button* o
           { Fl_Button* o = new Fl_Button(570, 215, 95, 25, "&Preview");
             o->callback((Fl_Callback*)cb_Preview);
@@ -1424,30 +1484,50 @@ Fl_Double_Window* make_window() {
         } // Fl_Group* o
         o->end();
       } // Fl_Group* o
-      { Fl_Group* o = new Fl_Group(25, 85, 655, 215, "Web");
+      { Fl_Group* o = new Fl_Group(25, 85, 655, 215, "SGTE");
         o->hide();
         { Fl_Group* o = new Fl_Group(25, 125, 645, 160, "Parameters");
           o->box(FL_DOWN_BOX);
-          { Fl_Button* o = new Fl_Button(40, 145, 330, 45, "Open with Fact 2017, SGTE");
+          { Fl_Button* o = new Fl_Button(40, 140, 370, 45, "Open with Fact 2017, SGTE");
             o->labelfont(1);
             o->callback((Fl_Callback*)cb_Open);
           } // Fl_Button* o
+          { var_fcoccalc_web_browser_def_dillo = new Fl_Check_Button(40, 195, 275, 35, "Open SGTE diagram with dillo");
+            var_fcoccalc_web_browser_def_dillo->down_box(FL_DOWN_BOX);
+            var_fcoccalc_web_browser_def_dillo->value( 0 );
+          } // Fl_Check_Button* var_fcoccalc_web_browser_def_dillo
           o->end();
         } // Fl_Group* o
         o->end();
       } // Fl_Group* o
       { Fl_Group* o = new Fl_Group(30, 85, 650, 210, "Settings");
         o->hide();
-        { var_fcoccalc_bin_calc_add_ref_phase = new Fl_Check_Button(55, 110, 275, 35, "Add phase (e.g. fcc) reference.");
+        { var_fcoccalc_bin_calc_add_ref_phase = new Fl_Check_Button(35, 110, 355, 35, "Add phase (e.g. fcc) reference for calculations.");
           var_fcoccalc_bin_calc_add_ref_phase->down_box(FL_DOWN_BOX);
         } // Fl_Check_Button* var_fcoccalc_bin_calc_add_ref_phase
-        { Fl_Button* o = new Fl_Button(525, 110, 140, 25, "Current path");
-          o->labelfont(1);
-          o->callback((Fl_Callback*)cb_Current);
-        } // Fl_Button* o
-        { statusbar = new Fl_Output(50, 265, 610, 20);
-          statusbar->color(FL_BACKGROUND_COLOR);
-        } // Fl_Output* statusbar
+        o->end();
+      } // Fl_Group* o
+      { Fl_Group* o = new Fl_Group(25, 85, 660, 220, "Help");
+        o->hide();
+        { Fl_Group* o = new Fl_Group(30, 120, 645, 160);
+          o->box(FL_DOWN_BOX);
+          { Fl_Button* o = new Fl_Button(45, 135, 230, 30, "Website OC Calc Utility");
+            o->labelfont(1);
+            o->callback((Fl_Callback*)cb_Website);
+          } // Fl_Button* o
+          { Fl_Button* o = new Fl_Button(285, 135, 375, 30, "Periodic table of elements and information");
+            o->labelfont(1);
+            o->callback((Fl_Callback*)cb_Periodic);
+          } // Fl_Button* o
+          { Fl_Button* o = new Fl_Button(45, 190, 140, 25, "Current path");
+            o->labelfont(1);
+            o->callback((Fl_Callback*)cb_Current);
+          } // Fl_Button* o
+          { statusbar = new Fl_Output(190, 190, 470, 25);
+            statusbar->color(FL_BACKGROUND_COLOR);
+          } // Fl_Output* statusbar
+          o->end();
+        } // Fl_Group* o
         o->end();
       } // Fl_Group* o
       o->end();

@@ -23,6 +23,7 @@ extern Fl_File_Browser *win_macro_flbrowser1;
 extern Fl_Output *win_macro_flbrowser1_output1;
 extern Fl_Input *win_macro_flbrowser1_filter;
 #include <FL/Fl_Check_Button.H>
+extern Fl_Check_Button *var_fcoccalc_web_browser_def_dillo;
 extern Fl_Check_Button *var_fcoccalc_bin_calc_add_ref_phase;
 extern Fl_Output *statusbar;
 Fl_Double_Window* make_window();

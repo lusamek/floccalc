@@ -62,25 +62,87 @@ Function {make_window()} {open
 } {
   Fl_Window win3 {
     label FLOCCALC open
-    xywh {605 445 795 275} type Double box THIN_UP_BOX resizable visible
+    xywh {166 133 890 500} type Double box THIN_UP_BOX resizable visible
   } {
     Fl_Box {} {
       label {My Project}
-      xywh {5 5 785 25} box THIN_UP_BOX labelfont 1
+      xywh {5 5 880 25} box THIN_UP_BOX labelfont 1
     }
     Fl_Button {} {
       label {&Quit}
-      callback {win3->hide();} selected
-      xywh {10 240 775 25} labelfont 1
+      callback {win3->hide();}
+      xywh {15 460 850 30} labelfont 1
     }
     Fl_Group {} {
-      label Templates open
-      xywh {10 60 775 165} box BORDER_BOX
+      label {Templates - OpenCalphad} open
+      xywh {15 60 855 165} box BORDER_BOX labelfont 1
     } {
       Fl_Button {} {
         label {&Binary Calculation}
-        callback {system(  "    screen -d -m  floccalc-binary  " );}
-        image {../../../../nuvola/32x32/apps/ooo_gulls.png} xywh {20 85 200 115} labelfont 1
+        callback {system(  "  cd ;  cd macros ;   screen -d -m  floccalc-binary  " );}
+        image {../../../../nuvola/32x32/apps/ooo_gulls.png} xywh {25 85 200 115} labelfont 1
+      }
+      Fl_Button {} {
+        label {&Advanced Calculation}
+        callback {system(  "  cd ;  cd macros ;   screen -d -m  flopencalphad " );}
+        image {../../../../nuvola/32x32/apps/kugar.png} xywh {445 85 200 115} labelfont 1
+      }
+      Fl_Button {} {
+        label {&Ternary Calculation}
+        callback {system(  "  cd ;  cd macros ;   screen -d -m  floccalc-ternary  " );}
+        image {../../../../nuvola/32x32/apps/kwikdisk.png} xywh {235 85 200 115} labelfont 1
+      }
+      Fl_Button {} {
+        label {&Periodic Table}
+        callback {if ( fexist( "/usr/bin/kalzium" ) == 1 ) 
+
+    system(  "  cd ; screen -d -m /usr/bin/kalzium  " );
+    
+    
+    
+ else   if ( fexist( "/usr/bin/gperiodic" ) == 1 ) 
+ 
+     system(  "  cd ; screen -d -m /usr/bin/gperiodic  " );
+     
+     
+ else   if ( fexist( "/usr/local/bin/flperiodic" ) == 1 ) 
+ 
+     system(  "  cd ; screen -d -m /usr/local/bin/flperiodic " );
+     
+     
+   else 
+     
+     
+         system(  "  cd ; screen -d -m flperiodic  " );}
+        image {../../../../nuvola/32x32/apps/kalzium.png} xywh {660 85 200 115} labelfont 1
+      }
+    }
+    Fl_Group {} {
+      label {Templates - Phenomelogical Methods (non Calphad)} open
+      xywh {15 280 850 165} box BORDER_BOX labelfont 1
+    } {
+      Fl_Button {} {
+        label {&CCT/TTT}
+        callback {system(  "  cd ;  cd macros ;   screen -d -m  flmatpro " );} selected
+        image {../../../../nuvola/32x32/apps/kweather.png} xywh {445 305 200 115} labelfont 1
+      }
+      Fl_Button {} {
+        label {&Diffusion}
+        callback {system(  "  cd ;  cd macros ;   screen -d -m   libreoffice  --norestore  ~/macros/diffusion/diffusion-exr2-1668088791.xlsx " );}
+        image {../../../../nuvola/32x32/apps/kreversi.png} xywh {235 305 200 115} labelfont 1
+      }
+      Fl_Button {} {
+        label {&Solubility Product}
+        callback {system(  "  cd ;  cd macros ;   screen -d -m  floccalc-solubility " );}
+        image {../../../../nuvola/32x32/actions/run.png} xywh {655 305 200 115} labelfont 1
+      }
+      Fl_Button {} {
+        label {&Material Properties}
+        callback {// system(  "  cd ;  cd macros ;   screen -d -m  floccalc-matpro " );
+
+
+system(  "  cd ;  cd macros ;   screen -d -m  floccalc-properties " );}
+        image {../../../../nuvola/32x32/apps/edu_mathematics.png} xywh {25 305 200 115} labelfont 1
       }
     }
   }
