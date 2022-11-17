@@ -8,6 +8,9 @@ OpenCalphad Utility for binary calculation
 
 ![](media/examples/floccalc.png)
 
+![](media/1668689940-screenshot.png)
+
+
 ![](media/floccalc-1.png)
 
 ![](media/floccalc-3.png)
@@ -18,6 +21,7 @@ OpenCalphad Utility for binary calculation
 ![](media/examples/Al-Si.png)
 ![](media/examples/Al-Cu.png)
 ![](media/examples/Al-Mg.png)
+
 
 
 
