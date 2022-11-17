@@ -1,5 +1,6 @@
 # floccalc
-OpenCalphad Utility for binary calculation
+OpenCalphad Utility for binary calculation, ternary calculation, ... and more utils.
+The software OC is employed for binary, ternary and advanced calculations (see this github webpage).
 
 
 ## Screenshot
