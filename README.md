@@ -9,8 +9,15 @@ The software OC is employed for binary, ternary and advanced calculations (see t
 
 ![](media/examples/floccalc.png)
 
-![](media/1668689940-screenshot.png)
+# ZTU 
 
+
+![](media/1668689940-screenshot.png)
+![](media/1669210275-screenshot.png)
+
+# Phasediagrams
+
+OpenCalphad is used in background.
 
 ![](media/floccalc-1.png)
 
